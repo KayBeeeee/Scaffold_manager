@@ -15,6 +15,11 @@ CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
+# Trusted origins for CSRF (important for HTTPS)
+CSRF_TRUSTED_ORIGINS = [
+    "https://scaffold-asset-manager-gtbcbaakhjd0b4c2.southafricanorth-01.azurewebsites.net"
+]
+
 # WhiteNoise for static files
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
