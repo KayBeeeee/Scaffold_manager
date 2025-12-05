@@ -41,13 +41,13 @@ class ScaffoldComponentForm(forms.ModelForm):
         asset_code = cleaned.get("asset_code")
         site = cleaned.get("site")
 
-        # Ensure next inspection is not before last inspection
+        # Ensuring that the next inspection is not before last inspection
         if last and nxt and nxt < last:
             raise ValidationError({
                 "next_inspection": "Next inspection must be on or after last inspection."
             })
 
-        # Enforce unique asset_code per site
+        # Enforcing unique asset_code per site
         if asset_code and site:
             qs = ScaffoldComponent.objects.filter(asset_code=asset_code, site=site)
             if self.instance and self.instance.pk:

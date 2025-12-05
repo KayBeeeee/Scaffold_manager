@@ -1,4 +1,4 @@
-# Enables automatic Azure production switch on WSGI/ASGI
+
 import os
 
 use_prod = False

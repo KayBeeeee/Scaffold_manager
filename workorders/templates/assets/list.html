@@ -119,5 +119,9 @@
       <a href="?page={{ page_obj.next_page_number }}&{{ query_params }}">Next</a>
     {% endif %}
   </div>
+  <a href="{% url 'assets:export_csv' %}?{{ request.GET.urlencode }}" class="button">
+    Export CSV
+  </a>
+
 </body>
 </html>

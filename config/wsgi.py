@@ -6,8 +6,7 @@ azure_detect = any(
     os.environ.get(k) for k in ("WEBSITE_INSTANCE_ID", "WEBSITE_SITE_NAME", "AZURE_DEPLOYMENT")
 )
 
-# If AUTO_PROD_ON_AZURE and Azure detected, set prod settings
-# We can't import base here; just set DJANGO_SETTINGS_MODULE if not set already
+
 if azure_detect:
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.prod")
 else:

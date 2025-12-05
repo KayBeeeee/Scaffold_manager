@@ -10,4 +10,6 @@ urlpatterns = [
     path("<int:pk>/edit/", views.AssetUpdateView.as_view(), name="edit"),
     path("<int:pk>/delete/", views.AssetDeleteView.as_view(), name="delete"),
     path("<int:pk>/toggle-in-use/", views.toggle_in_use, name="toggle_in_use"),
+    path("export/csv/", views.ExportCSVView.as_view(), name="export_csv"),
+
 ]

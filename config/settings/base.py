@@ -3,9 +3,9 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-# Common settings
+
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key-for-local")
-DEBUG = False  # default; overridden in dev.py or auto-switch
+DEBUG = False 
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -15,7 +15,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "workorders",  # your app
+    "workorders",  
 ]
 
 MIDDLEWARE = [
