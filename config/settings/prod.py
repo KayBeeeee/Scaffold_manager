@@ -3,17 +3,18 @@ import os
 
 DEBUG = False
 
-# Use environment variable or fallback
+# Fetch from environment
+SECRET_KEY = os.environ.get("SECRET_KEY", "fallback-prod-secret-key")
+
+# Minimal ALLOWED_HOSTS: set via environment
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
 
-# Security for cookies if HTTPS
+# Security settings
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
-# Insert WhiteNoise middleware near the top (after SecurityMiddleware)
+# WhiteNoise for static files
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
-
-# WhiteNoise static files storage
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
