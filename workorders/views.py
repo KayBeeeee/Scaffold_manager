@@ -5,6 +5,7 @@ from django.db.models import Q, Count, Case, When, IntegerField
 from django.shortcuts import redirect, get_object_or_404
 from .models import ScaffoldComponent
 from .forms import ScaffoldComponentForm
+from django.http import HttpResponse
 
 
 # CRUD Views
