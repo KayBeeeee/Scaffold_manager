@@ -1,4 +1,3 @@
-# config/settings/base.py
 import os
 from pathlib import Path
 
@@ -6,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Common settings
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key-for-local")
-DEBUG = False  # default; dev.py will set True
+DEBUG = False  # default; overridden in dev.py or auto-switch
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -16,12 +15,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "workorders",  # or your app name
+    "workorders",  # your app
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    # WhiteNoise will be inserted in dev/prod as required
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -65,5 +63,10 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Allow project to auto-switch on Azure if enabled
+# Auto-switch to production settings if deployed on Azure
 AUTO_PROD_ON_AZURE = True
+if AUTO_PROD_ON_AZURE and os.environ.get("AZURE_DEPLOYMENT") == "1":
+    try:
+        from .prod import *
+    except ImportError:
+        pass

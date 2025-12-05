@@ -1,10 +1,9 @@
-# config/settings/prod.py
 from .base import *
 import os
 
 DEBUG = False
 
-# Minimal ALLOWED_HOSTS: use '*' for simple assignment or set explicit host
+# Use environment variable or fallback
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
 
 # Security for cookies if HTTPS
