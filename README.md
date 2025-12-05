@@ -45,9 +45,6 @@ Optional Variables
 DATABASE_URL
 ALLOWED_HOSTS (multiple comma separated)
 
-Quick Production Verification
-Open:
-https://<your-app>.azurewebsites.net/assets/
 
 Local Development Setup
 python -m venv venv
