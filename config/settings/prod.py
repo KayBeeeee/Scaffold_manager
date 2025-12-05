@@ -1,7 +1,7 @@
 from .base import *
 import os
 
-DEBUG = False
+DEBUG = True
 
 # Fetch from environment
 SECRET_KEY = os.environ.get("SECRET_KEY", "fallback-prod-secret-key")
