@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Assets</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 1em;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) { background-color: #fafafa; }
+    .filter-form select, .filter-form input { margin-right: 0.5em; }
+    .summary { margin-top: 1em; }
+    .summary div { margin-bottom: 0.3em; }
+    .in-use-true { color: green; font-weight: bold; }
+    .in-use-false { color: gray; font-weight: normal; }
+    .actions form { display: inline; margin: 0; padding: 0; }
+  </style>
+</head>
+<body>
+  <h1>Scaffold Components</h1>
+  <p><a href="{% url 'assets:create' %}">Create Asset</a></p>
+
+  <form method="get" class="filter-form">
+    <input type="text" name="q" placeholder="search name or code" value="{{ request.GET.q }}">
+    <select name="site">
+      <option value="">All sites</option>
+      {% for key,label in SITE_CHOICES %}
+        <option value="{{ key }}" {% if request.GET.site == key %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <select name="category">
+      <option value="">All categories</option>
+      {% for key,label in CATEGORY_CHOICES %}
+        <option value="{{ key }}" {% if request.GET.category == key %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <select name="condition">
+      <option value="">All conditions</option>
+      {% for key,label in CONDITION_CHOICES %}
+        <option value="{{ key }}" {% if request.GET.condition == key %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <select name="in_use">
+      <option value="">In use?</option>
+      <option value="true" {% if request.GET.in_use == "true" %}selected{% endif %}>Yes</option>
+      <option value="false" {% if request.GET.in_use == "false" %}selected{% endif %}>No</option>
+    </select>
+    <button type="submit">Filter</button>
+  </form>
+
+  <div class="summary">
+    <h3>Summary</h3>
+    <div><strong>By Site:</strong>
+      {% for c in counts_by_site %} {{ c.site }}: {{ c.count }} {% endfor %}
+    </div>
+    <div><strong>By Condition:</strong>
+      {% for c in counts_by_condition %} {{ c.condition }}: {{ c.count }} {% endfor %}
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Asset Code</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Length (mm)</th>
+        <th>Weight (kg)</th>
+        <th>Condition</th>
+        <th>Site</th>
+        <th>Next Inspection</th>
+        <th>In Use</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in assets %}
+      <tr>
+        <td>{{ a.asset_code }}</td>
+        <td>{{ a.name }}</td>
+        <td>{{ a.category }}</td>
+        <td>{{ a.length_mm }}</td>
+        <td>{{ a.weight_kg }}</td>
+        <td>{{ a.condition }}</td>
+        <td>{{ a.site }}</td>
+        <td>{{ a.next_inspection }}</td>
+        <td class="{% if a.is_in_use %}in-use-true{% else %}in-use-false{% endif %}">{{ a.is_in_use }}</td>
+        <td class="actions">
+          <a href="{% url 'assets:detail' a.pk %}">View</a> |
+          <a href="{% url 'assets:edit' a.pk %}">Edit</a> |
+          <form action="{% url 'assets:delete' a.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit" onclick="return confirm('Delete?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="10">No assets found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div style="margin-top:1em;">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}&{{ query_params }}">Prev</a>
+    {% endif %}
+    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}&{{ query_params }}">Next</a>
+    {% endif %}
+  </div>
+</body>
+</html>

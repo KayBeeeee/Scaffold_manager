@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% if form.instance.pk %}Edit{% else %}Create{% endif %} Asset</title>
+  <style>
+    .error { color: red; }
+    .field-error input, .field-error select, .field-error textarea {
+      border: 1px solid red;
+    }
+  </style>
+</head>
+<body>
+  <h1>{% if form.instance.pk %}Edit{% else %}Create{% endif %} Asset</h1>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- Non-field errors (like unique asset_code per site) -->
+    {% if form.non_field_errors %}
+      <div class="error">
+        {% for error in form.non_field_errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <table>
+      {% for field in form %}
+        <tr class="{% if field.errors %}field-error{% endif %}">
+          <th>{{ field.label_tag }}</th>
+          <td>
+            {{ field }}
+            {% if field.help_text %}
+              <small>{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+              <div class="error">{{ error }}</div>
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <button type="submit">Save</button>
+    <a href="{% url 'assets:list' %}">Cancel</a>
+  </form>
+</body>
+</html>

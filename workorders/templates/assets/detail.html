@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Asset: {{ object.name }}</title>
+</head>
+<body>
+  <h1>{{ object.name }}</h1>
+
+  <ul>
+    <li><strong>Asset Code:</strong> {{ object.asset_code }}</li>
+    <li><strong>Category:</strong> {{ object.category }}</li>
+    <li><strong>Length (mm):</strong> {{ object.length_mm }}</li>
+    <li><strong>Weight (kg):</strong> {{ object.weight_kg }}</li>
+    <li><strong>Condition:</strong> {{ object.condition }}</li>
+    <li><strong>Site:</strong> {{ object.site }}</li>
+    <li><strong>Location:</strong> {{ object.location }}</li>
+    <li><strong>Last Inspection:</strong> {{ object.last_inspection }}</li>
+    <li><strong>Next Inspection:</strong> {{ object.next_inspection }}</li>
+    <li><strong>In Use:</strong> {% if object.is_in_use %}Yes{% else %}No{% endif %}</li>
+  </ul>
+
+  <form action="{% url 'assets:toggle_in_use' object.pk %}" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit">
+      {% if object.is_in_use %}Mark as Not in Use{% else %}Mark as In Use{% endif %}
+    </button>
+  </form>
+
+  <p>
+    <a href="{% url 'assets:edit' object.pk %}">Edit</a> |
+    <a href="{% url 'assets:list' %}">Back to List</a>
+  </p>
+</body>
+</html>
